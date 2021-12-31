@@ -10,9 +10,9 @@ Sample output below -
 
 ***************************
 
-ProxyEnable AutoConfigURL ProxyServer          
------------ ------------- -----------          
-          1               http://actualpacserver/actualproxypac.pac
+ProxyEnable AutoConfigURL                              ProxyServer          
+----------- -------------                              -----------          
+          1 http://actualpacserver/actualproxypac.pac   10.0.0.1:8080
 
 
 
