@@ -1,0 +1,34 @@
+echo "**********************************************************************************************************"
+echo "* Purpose:                                                                                               *"
+echo "*    Organisations usually block proxy setting option through group policy. Also, users usually don't    *"
+echo "*    have Admin access to change the proxy setting. This script helps security engineers to set a        *"
+echo "*    different proxy for testing. This change is temporary & is overridden by the group policy.          *"
+echo "*                                                                                                        *"
+echo "* How to use:                                                                                            *"
+echo "*    Run the script & enter desired PAC/ proxy when prompted.                                            *"
+echo "*                                                                                                        *"
+echo "*    A file out.txt will get generated. Read carefully the message displayed in the output file.         *"
+echo "*                                                                                                        *"
+echo "* Disclaimer:                                                                                            *"
+echo "*    There is no guarantee/ warranty that it will work as intended, though it worked fine during testing.*" 
+echo "*    Use at your own risk -:).                                                                           *"
+echo "*                                                                                                        *"
+echo "*    Report bug to sanjib_25@yahoo.com. Visit https://github.com/Sanjib-Chowdhury for more tools.        *"
+echo "**********************************************************************************************************"
+echo ""
+echo "***************************" > out.txt
+date >> out.txt
+echo "***************************" >> out.txt
+Get-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" | select-object ProxyEnable, AutoconfigUrl, ProxyServer >> out.txt
+$PAC = Read-Host 'Enter the PAC file name along with path (http://pacserver/pacfile.pac) & hit enter. Just hit enter if not known'
+$Proxy = Read-Host 'Enter the Proxy IP & port (http://10.0.0.1:8080) & hit enter'
+
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings'AutoConfigURL $PAC
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' ProxyServer $Proxy
+
+Get-ItemProperty -Path "Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" | select-object ProxyEnable, AutoconfigUrl, ProxyServer >> out.txt
+
+echo "**********************************************************" >> out.txt
+echo "Report bug to sanjib_25@yahoo.com" >> out.txt
+echo "Visit https://github.com/Sanjib-Chowdhury for more tools." >> out.txt
+notepad out.txt
